@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SavingsGoal;
 use Illuminate\Http\Request;
 
-class SavingsController extends Controller
+class SavingsGoalController extends Controller
 {
     /**
      * Display a listing of the resource.

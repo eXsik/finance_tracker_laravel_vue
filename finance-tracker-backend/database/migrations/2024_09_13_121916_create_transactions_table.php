@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->decimal('amount', 10, 2);
             $table->string('type');
             $table->text('description')->nullable();
-            $table->foreignId('category_id')->constrained('categories')->onDelete('set null');
+            $table->foreignId('category_id')->constrained('categories');
             $table->date('date');
             $table->timestamps();
         });
