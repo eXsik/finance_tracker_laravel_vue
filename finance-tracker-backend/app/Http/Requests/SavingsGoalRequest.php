@@ -11,7 +11,7 @@ class SavingsGoalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class SavingsGoalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'target_amount' => 'requred|numeric|min:0',
+            'current_amount' => 'nullable|numeric|min:0',
+            'target_date' => 'required|date|after_or_equal:today'
         ];
     }
 }

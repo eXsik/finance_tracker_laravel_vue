@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BudgetRequest;
 use App\Models\Budget;
 use Illuminate\Http\Request;
 
@@ -10,17 +11,21 @@ class BudgetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Budget::all();
+        $budget = $request->user()->budgets()->latest()->get();
+
+        return response()->json($budget);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BudgetRequest $request)
     {
-        //
+        $budget = $request->user()->budgets()->create($request->validated());
+
+        return response()->json($budget, 200);
     }
 
     /**
@@ -28,7 +33,7 @@ class BudgetController extends Controller
      */
     public function show(Budget $budget)
     {
-        //
+        return response()->json($budget, 200);
     }
 
     /**
@@ -36,7 +41,9 @@ class BudgetController extends Controller
      */
     public function update(Request $request, Budget $budget)
     {
-        //
+        $budget->update($request->validated());
+
+        return response()->json($budget, 200);
     }
 
     /**
@@ -44,6 +51,8 @@ class BudgetController extends Controller
      */
     public function destroy(Budget $budget)
     {
-        //
+        $budget->delete();
+
+        return response()->json(null, 204);
     }
 }

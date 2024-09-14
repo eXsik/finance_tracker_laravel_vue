@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->decimal('amount', 10, 2);
-            $table->string('type');
+            $table->enum('type', ['income', 'expense']);
             $table->text('description')->nullable();
             $table->foreignId('category_id')->constrained('categories');
             $table->date('date');
