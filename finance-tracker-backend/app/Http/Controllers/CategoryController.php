@@ -10,9 +10,11 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Category::all();
+        $categories = $request->user()->categories()->latest()->get();
+
+        return response()->json($categories);
     }
 
     /**

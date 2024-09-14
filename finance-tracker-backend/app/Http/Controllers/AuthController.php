@@ -5,20 +5,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $reguest)
+    public function register(RegisterRequest $request)
     {
         $user = User::create([
-            'name' => $reguest->name,
-            'email' => $reguest->email,
-            'password' => Hash::make($reguest->password),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
-        return response()->json($user, 201);
+        $token = $user->createToken($request->name);
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token->plainTextToken,
+        ], 201);
     }
 
     public function login(LoginRequest $request)
@@ -32,7 +36,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'access-token' => $token,
+            'access-token' => $token->plainTextToken,
             'token_type' => 'Bearer'
         ]);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SavingsGoalController;
@@ -12,8 +13,11 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/', function (Request $request) {
-    return 'API';
+
 });
+
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::apiResource('/categories', CategoryController::class);
 Route::apiResource('/transactions', TransactionController::class);
